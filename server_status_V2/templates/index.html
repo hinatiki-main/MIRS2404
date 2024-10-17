@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>MIRS2404</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        h1 {
+            color: #0066cc;
+            text-align: center;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+        .divider {
+            border-top: 2px solid #0066cc;
+            margin: 20px 0;
+        }
+        .hidden-section {
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        .toggle-button {
+            cursor: pointer;
+            color: #0066cc;
+            text-decoration: underline;
+            display: block;
+            margin-bottom: 10px;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        p, div, h2 {
+            margin: 10px 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        blockquote {
+            background-color: #f9f9f9;
+            border-left: 10px solid #ccc;
+            margin: 20px 0;
+            padding: 10px 20px;
+            quotes: "\201C""\201D""\2018""\2019";
+        }
+        blockquote:before {
+            content: open-quote;
+        }
+        blockquote:after {
+            content: close-quote;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0066cc;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+                margin: 10px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            p, div, h2 {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div style="margin-left: 10px;">読み込み中...</div>
+    </div>
+    <div class="container" id="content">
+        <h1>MIRS2404-Service</h1>
+        <div class="divider"></div>
+        <span>8/3　</span>
+        <span style="color: rgb(85, 233, 85);">学内LANへの接続方法を更新しました</span>
+        <div>　　　Work Recordの編集が可能になりました</div>
+        <div class="divider"></div>
+        <div>&nbsp;</div>
+
+        <h2><strong>学内サーバーへの接続</strong></h2>
+        <div id="ssh-access" class="hidden-section visible">
+            <div>貼り付けてあるbatファイルをダウンロードして実行する</div>
+            <div>batファイルなので実行すると警告出るかもしれないけど、そのまま実行してください</div>
+            <div>&nbsp;</div>
+            <div>
+                <a href="/static/files/setup_for_MIRS2404_V2.bat">ここからダウンロード</a>
+            </div>
+            <div>&nbsp;</div>
+            <div>FortiClient VPN インストーラーが起動するので画面の指示に沿ってインストールして起動する</div>
+            <div>&darr;VPN設定を開いて下記の画像のように設定する</div>
+            <div>&nbsp;</div>
+            <div><img src="{{ url_for('static', filename='images/gazou1.png') }}" alt="" style="width: 800px; height: auto;" /></div>
+            <div>&nbsp;</div>
+            <div><img src="{{ url_for('static', filename='images/gazou2.png') }}" alt="" style="width: 800px; height: auto;" /></div>
+            <div>学校のIDとPWD入れて接続すれば完了</div>
+            <div>学校と同じ環境で使えます</div>
+        </div>
+
+        <h2><strong>学内サーバーへのSSH</strong></h2>
+        <div id="ssh-access" class="hidden-section visible">
+            <div>VPN接続した状態で次のコマンドを実行</div>
+            <blockquote>
+                <div>ssh mirs2404@titan.denshi.numazu-ct.ac.jp</div>
+            </blockquote>
+            <div>PWD入れてログイン</div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+            document.body.style.overflow = 'auto';
+        });
+    </script>
+    <script src="https://mirs2404.statuspage.io/embed/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.button {
+    width: 200px;
+    height: 100px;
+    font-size: 24px;
+    margin: 10px;
+}
+
+.pressed {
+    background-color: green;
+    color: white;
+}

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>MIRS2404</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        h1 {
+            color: #0066cc;
+            text-align: center;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            display: none;
+        }
+        .divider {
+            border-top: 2px solid #0066cc;
+            margin: 20px 0;
+        }
+        #status {
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .status-healthy {
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+        }
+        .status-unhealthy {
+            background-color: #f2dede;
+            color: #a94442;
+            border: 1px solid #ebccd1;
+        }
+        .hidden-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        .visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .toggle-button {
+            cursor: pointer;
+            color: #0066cc;
+            text-decoration: underline;
+            display: block;
+            margin-bottom: 10px;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        p, div, h2 {
+            margin: 10px 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        blockquote {
+            background-color: #f9f9f9;
+            border-left: 10px solid #ccc;
+            margin: 20px 0;
+            padding: 10px 20px;
+            quotes: "\201C""\201D""\2018""\2019";
+        }
+        blockquote:before {
+            content: open-quote;
+        }
+        blockquote:after {
+            content: close-quote;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0066cc;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+                margin: 10px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            p, div, h2 {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div style="margin-left: 10px;">読み込み中...</div>
+    </div>
+    <div class="container" id="content">
+        <h1>MIRS2404-Service</h1>
+        <div class="divider"></div>
+        <div id="status"></div>
+        <a href="https://numazu-mirs2404-pi.okakabase.net/mirsdoc2/" target="_blank">MIRS database(学内版)</a>
+        <div class="divider"></div>
+        <p><strong>・最初に</strong></p>
+        <div>学外から学内のサーバーにアクセスできるようにしました。</div>
+        <div>アクセス条件は</div>
+        <div>&nbsp;</div>
+        <div><strong>・日本国内からのアクセスであること</strong></div>
+        <div><strong>・登録されたメールアドレスからの認証であること</strong></div>
+        <div>&nbsp;</div>
+        <div>の2つです。</div>
+        <div>&nbsp;</div>
+        <div>認証方法はメールアドレス(学校の)を用いたワンタイムパスワード認証です。</div>
+        <div>一応メンバー全員のメールアドレス(学校の)は登録してあるので行けるはず</div>
+        <div>登録されてないメールアドレスで認証してもアクセスできないので注意してください。</div>
+        <div>&nbsp;</div>
+
+        <h2 class="toggle-button" onclick="toggleSection('mirs-database')"><strong>MIRS Database(学内版)へのアクセス方法</strong></h2>
+        <div id="mirs-database" class="hidden-section">
+            <div>&darr;このURLにアクセス</div>
+            <div><a title="MIRS Database" href="https://numazu-mirs2404-pi.okakabase.net/mirsdoc2/" target="_blank" rel="noopener">MIRS Database(学内版)</a></div>
+            <div>&nbsp;</div>
+            <div>メルアド打つ画面が出てくるので自分の学校のメルアドを入れる</div>
+            <div>6桁のパスワードが送られてくるのでそれを入力したらOK</div>
+            <div>(メール来なかったらResend email押して再送させる)</div>
+            <div>&nbsp;</div>
+            <div><img src="{{ url_for('static', filename='images/gazou1.png') }}" alt="" width="328" height="253" /></div>
+            <div>&nbsp;</div>
+        </div>
+
+        <h2 class="toggle-button" onclick="toggleSection('ssh-access')"><strong>学内サーバーへのアクセス方法(SSH)</strong></h2>
+        <div id="ssh-access" class="hidden-section">
+            <div>貼り付けてあるbatファイルをダウンロードして実行する</div>
+            <div>batファイルなので実行すると警告出てきますが、そのまま実行してください</div>
+            <div>(sshのconfigいじったことある人はその内容消えるので注意)</div>
+            <div>&nbsp;</div>
+            <div>
+                <a href="/static/files/setup_for_MIRS2404.bat">ここからダウンロード</a>
+            </div>
+            <div>&nbsp;</div>
+            <div><strong><img src="{{ url_for('static', filename='images/gazou2.png') }}" alt="" width="800" height="175" /></strong></div>
+            <div>&uarr;こんな感じになったらOK</div>
+            <div>次にコマンドプロンプト開いて下記コマンドを実行</div>
+            <blockquote>
+                <div>ssh mirs2404@mirs2404-pi-ssh</div>
+            </blockquote>
+            <div>実行するとブラウザが開いて同じくログイン画面が出てくるのでログイン(既にログインした人は必要ないはず)</div>
+            <div>&darr;この画面が出てくるので、</div>
+            <div>&nbsp;</div>
+            <div><img src="{{ url_for('static', filename='images/gazou3.png') }}" alt="" width="482" height="245" /></div>
+            <div>&nbsp;</div>
+            <div>Approve押す。そしたらブラウザは閉じてOK</div>
+            <div>コマンドプロンプト上でsshセッションがつながっているはずなのでパスワード(学内サーバーの)入れる</div>
+        </div>
+
+        <h2 class="toggle-button" onclick="toggleSection('sftp-access')"><strong>学内サーバーへのアクセス方法(SFTP) ※めんどくさい</strong></h2>
+        <div id="sftp-access" class="hidden-section">
+            <div><strong>※事前に「学内サーバーへのアクセス方法(SSH)」の手順を済ませること</strong></div>
+            <div>&nbsp;</div>
+            <div>なんでもいいのでSFTPソフトをインストールする</div>
+            <div>(例：WinSCP)</div>
+            <div>コマンドプロンプトで下記コマンドを実行</div>
+            <blockquote>
+                <div>cloudflared access tcp --hostname mirs2404-pi-ssh.okakabase.net --url localhost:8445</div>
+            </blockquote>
+            <div>コマンドプロンプトは開いたまま(閉じると接続が切れる)SFTPソフトを起動</div>
+            <div>&darr;こんな感じで接続先を入力してログインを押す</div>
+            <div>&nbsp;</div>
+            <div><img src="{{ url_for('static', filename='images/gazou4.png') }}" alt="" width="238" height="248" /></div>
+            <div>&nbsp;</div>
+            <div>学校で作業する時と同じ要領でログイン</div>
+            <div>&nbsp;</div>
+            <div><img src="{{ url_for('static', filename='images/gazou5.png') }}" alt="" width="242" height="249" /></div>
+            <div>&nbsp;</div>
+            <div>編集したいファイルをテキストエディタ(VS code)とかで開く&darr;</div>
+            <div><a href="https://shironoir0000.hatenablog.com/entry/2019/05/14/144159" target="_blank" rel="noopener">VSCodeで（WinSCP越しに）SSHでサーバ上のファイルを編集する</a></div>
+            <div>データ損失を防ぐため、<strong>必ずVS codeの「ファイル」タブの中にある「自動保存」を有効にして編集してください</strong></div>
+        </div>
+    </div>
+    <script>
+        async function checkTunnelStatus() {
+            const response = await fetch('/tunnel-status');
+            const data = await response.json();
+            
+            const statusDiv = document.getElementById('status');
+            if (data.status === 'healthy') {
+                statusDiv.textContent = 'サーバーは正常です';
+                statusDiv.className = 'status-healthy';
+            } else {
+                statusDiv.textContent = 'サーバーはダウンしています、今は使えません';
+                statusDiv.className = 'status-unhealthy';
+            }
+        }
+
+        function toggleSection(id) {
+            const section = document.getElementById(id);
+            if (section.classList.contains('visible')) {
+                section.classList.remove('visible');
+                setTimeout(() => { section.style.display = 'none'; }, 500); // Hide after animation
+            } else {
+                section.style.display = 'block';
+                setTimeout(() => { section.classList.add('visible'); }, 10); // Delay to trigger transition
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await checkTunnelStatus();
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+            document.body.style.overflow = 'auto';
+        });
+    </script>
+    <script src="https://mirs2404.statuspage.io/embed/script.js"></script>
+</body>
+</html>
