@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import socket_connection as sc
+import os
 
 app = Flask(__name__)
 
@@ -10,7 +11,6 @@ button_states = {
     'button3': False
 }
 
-
 # ボタンの状態を受け取るエンドポイント
 @app.route('/api/button_state', methods=['POST'])
 async def receive_button_state():
@@ -19,7 +19,7 @@ async def receive_button_state():
     button = data.get('button')
     pressed = data.get('pressed')
 
-    await sc.send_to_raspberry(button)#websocket通信
+    await sc.send_to_raspberry(button)  # websocket通信
 
     if button in button_states and isinstance(pressed, bool):
         button_states[button] = pressed
@@ -33,4 +33,12 @@ def main_page():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5010)
+    app.run(
+        host='0.0.0.0', 
+        port=5010, 
+        debug=True, 
+        extra_files=[
+            os.path.join(os.getcwd(), 'static'),
+            os.path.join(os.getcwd(), 'templates')
+        ]
+    )
