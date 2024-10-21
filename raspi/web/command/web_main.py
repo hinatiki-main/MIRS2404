@@ -1,7 +1,12 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, json
 import socket_connection as sc
+import configparser
 
 app = Flask(__name__)
+
+#configの読み込み
+config_ini = configparser.ConfigParser()
+config_ini.read('../config.ini', encoding='utf-8')
 
 # グローバル変数でボタンの状態を保持
 button_states = {
@@ -16,10 +21,11 @@ button_states = {
 async def receive_button_state():
     global button_states
     data = request.get_json()
+    
     button = data.get('button')
     pressed = data.get('pressed')
 
-    await sc.send_to_raspberry(button)#websocket通信
+    await sc.send_to_raspberry(data)#websocket通信
 
     if button in button_states and isinstance(pressed, bool):
         button_states[button] = pressed
@@ -33,6 +39,9 @@ def main_page():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5010)
+    HOST = config_ini.get('web_main', 'HOST')
+    PORT = config_ini.get('web_main', 'PORT')
+
+    app.run(host=HOST, port=PORT)
     #デバッグ用コマンド↓
-    #flask --app web-main run --host 192.168.1.12 --port 5010 --debug --extra-files templates/*:static/*
+    #flask --app web_main run --host 192.168.1.12 --port 5010 --debug --extra-files templates/*:static/*
