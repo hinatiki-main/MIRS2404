@@ -11,6 +11,25 @@ async def echo(websocket, path):
     async for server_data in websocket:
         data = json.loads(server_data)
         print(f"受け取ったメッセージ: {data}")
+        await control(data)
+
+async def control(data):
+    if data['button'] == 'button1' and data['pressed'] == True:
+        print("止まります")
+        #button1が押されたときの動作
+
+    if data['button'] == 'button2' and data['pressed'] == True:
+        print("水出し中")
+        #button2が押されたときの動作
+    elif data['button'] == 'button2' and data['pressed'] == False:
+        print("水出し終了")
+        #button2が話されたときの動作
+
+    if data['button'] == 'button3' and data['pressed'] == True:
+        print("走り出します")
+        #button3が押されたときの動作
+
+    
 
 async def main():
     host = config_ini.get('raspi_recever', 'HOST')

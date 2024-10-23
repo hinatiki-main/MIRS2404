@@ -15,6 +15,9 @@ button_states = {
     'button3': False
 }
 
+@app.route("/", methods=["GET"])
+def main_page():
+    return render_template("index.html")
 
 # ボタンの状態を受け取るエンドポイント
 @app.route('/api/button_state', methods=['POST'])
@@ -32,11 +35,6 @@ async def receive_button_state():
         return jsonify({'message': '状態を受け取りました'}), 200
     else:
         return jsonify({'message': '無効なデータです'}), 400
-
-@app.route("/", methods=["GET"])
-def main_page():
-    return render_template("index.html")
-
 
 if __name__ == '__main__':
     HOST = config_ini.get('web_main', 'HOST')
