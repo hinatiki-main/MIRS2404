@@ -1,5 +1,7 @@
+var origin_URL = window.location.href;
+
 function sendButtonState(buttonId, state) {
-    fetch('https://mirs2404-command.okakabase.net/api/button_state', {
+    fetch(origin_URL + '/api/button_state', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
