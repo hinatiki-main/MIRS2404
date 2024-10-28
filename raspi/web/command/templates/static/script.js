@@ -56,14 +56,13 @@ function setupButton(buttonId) {
         if (!isPressed) {
             isPressed = true;
             button.classList.add('pressed');
+            sendButtonState(buttonId, true);
             
             if (buttonId === 'button1') {  // 停止ボタンの場合
                 stopModal.show();  // 保存したモーダルインスタンスを使用
-                return;  // 通常の処理を中断
             }
             
             display_switching(buttonId, true);
-            sendButtonState(buttonId, true);
         }
     }
 
