@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, json
+from flask import Flask, render_template, request, jsonify
 import socket_connection as sc
 import configparser
 
@@ -34,7 +34,7 @@ async def receive_button_state():
         button_states[button] = pressed
         return jsonify({'message': '状態を受け取りました'}), 200
     else:
-        return jsonify({'message': '無効なデータです'}), 400
+        return jsonify({'message': '無効なデータです'}), 200
 
 if __name__ == '__main__':
     HOST = config_ini.get('web_main', 'HOST')

@@ -2,15 +2,54 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>3つのボタン押下状態確認</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="static/style.css">
 </head>
-<body>
-    <h1>3つのボタン押下状態確認</h1>
-    <button id="button1" class="button">ボタン1</button>
-    <button id="button2" class="button">ボタン2</button>
-    <button id="button3" class="button">ボタン3</button>
+<body class="bg-info">
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid justify-content-center">
+          <a class="navbar-brand display-1" href="#">MIRS2404</a>
+        </div>
+    </nav>
+
+    <!-- モーダル -->
+    <div class="modal fade" id="stopModal" tabindex="-1" aria-labelledby="stopModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="stopModalLabel">メッセージ</h5>
+                </div>
+                <div class="modal-body">
+                    <p class="fs-4 text-center">停止しました</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-primary" id="okButton" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ボタンを中央に配置するための外側のコンテナ -->
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <!-- ボタングループを縦方向に並べるための内側のコンテナ -->
+        <div class="d-flex flex-column align-items-center">
+            <!-- 上部のボタングループ -->
+            <div class="d-flex justify-content-center mb-5">
+                <button id="button1" class="btn btn-danger big-button">停止</button>
+                <button id="button2" class="btn btn-primary big-button">水を出す</button>
+                <button id="button3" class="btn btn-success big-button">準備完了</button>
+            </div>
+            <!-- 下部のボタン -->
+            <div>
+                <button id="button4" class="btn btn-success button4-size">水出し終了</button>
+            </div>
+        </div>
+    </div>
 
     <script src="static/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 </html>
