@@ -1,35 +1,6 @@
-var origin_URL = window.location.href;
+import { display_switching } from "./display_switching.js";
+import { sendButtonState } from "./post.js";
 
-// ボタンの表示切替
-//TODO ボタンの切り替え処理
-function display_switching(buttonId, state) {
-    const button1 = document.getElementById('button1');
-    const button2 = document.getElementById('button2');
-
-    if (buttonId == "button1" && state == false) {
-        button1.style.display = 'none';
-        button2.style.display = 'inline-block';
-        button4.style.display = 'inline-block';
-    } else if (buttonId == "button4" && state == false) {
-        button2.style.display = 'none';
-        button4.style.display = 'none';
-        button1.style.display = 'inline-block';
-    }
-}
-
-//POSTとボタン
-function sendButtonState(buttonId, button_state, run_state) {
-    fetch(origin_URL + '/api/button_state', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 'button': buttonId, 'pressed': button_state , 'start': run_state})
-    })
-    .catch(error => {
-        console.error('通信エラー:', error);
-    });
-}
 
 function setupButton(buttonId) {
     const button = document.getElementById(buttonId);
