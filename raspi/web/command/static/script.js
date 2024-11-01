@@ -1,5 +1,7 @@
 import { display_switching } from "./display_switching.js";
 import { sendButtonState } from "./post.js";
+import { startCountdown } from "./timer.js";
+import { stopCountdown } from "./timer.js";
 
 
 function setupButton(buttonId) {
@@ -37,6 +39,10 @@ function setupButton(buttonId) {
             if (buttonId === 'button1') {  // 停止ボタンの場合
                 stopModal.show();  // 保存したモーダルインスタンスを使用
             }
+
+            if (buttonId === 'button2') {
+                startCountdown(); // 水を出すボタンでカウントダウンを開始
+            }            
         
             display_switching(buttonId, true);
         }
@@ -48,7 +54,8 @@ function setupButton(buttonId) {
             button.classList.remove('pressed');
             display_switching(buttonId, false);
 
-            if (buttonId == 'button4') { //水出し終了(button4)で走行開始
+            if (buttonId == 'button4') { //水出し終了(button4)で走行開始、カウントダウン終了
+                stopCountdown();
                 sendButtonState(null, null, true);
             } else {
                 sendButtonState(buttonId, false, false);
