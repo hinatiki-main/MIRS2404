@@ -48,3 +48,14 @@
     padding: 10px 50px;  /* OKボタンのサイズ */
     font-size: 1.2rem;  /* OKボタンのフォントサイズ */
 }
+
+#progress-container {
+    width: 200px;
+    height: 200px;
+    margin: 20px auto;
+}
+
+#progress-container {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
