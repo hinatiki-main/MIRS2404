@@ -2,6 +2,7 @@ let countdownTimer;
 let remainingTime;
 let setTime = 10; // タイマーの設定時間を10秒に変更
 let bar; // プログレスバーのインスタンス
+let isButtonHeld = false; // 「水を出す」ボタンが押されているかどうかのフラグ
 
 // プログレスバーの初期化
 function initializeProgressBar() {
@@ -72,7 +73,7 @@ export function startCountdown() {
     initializeProgressBar();
     hideProgressBarImmediately(); // タイマーリセット時に即座に透明に
 
-    // 既にカウントダウン中の場合はリセット
+    // タイマーが既に動作中の場合はリセット
     if (countdownTimer) {
         clearInterval(countdownTimer);
         remainingTime = setTime; // 残り時間をリセット
@@ -129,6 +130,30 @@ export function stopCountdown() {
     }
     remainingTime = setTime; // 残り時間をリセット
 }
+
+// 「水を出す」ボタンを押し続けている間タイマーをリセット
+const waterButton = document.getElementById('button2');
+waterButton.addEventListener('mousedown', () => {
+    isButtonHeld = true;
+    startCountdown(); // タイマーをリセットして開始
+
+    // ボタンを押し続けている間、タイマーをリセット
+    const holdInterval = setInterval(() => {
+        if (isButtonHeld) {
+            startCountdown();
+        } else {
+            clearInterval(holdInterval); // ボタンが離されたら停止
+        }
+    }, 100); // 100msごとにリセット
+});
+
+waterButton.addEventListener('mouseup', () => {
+    isButtonHeld = false;
+});
+
+waterButton.addEventListener('mouseleave', () => {
+    isButtonHeld = false;
+});
 
 // 「水出し終了」ボタンが押されたときにプログレスバーを即座に透明にする
 document.getElementById('button4').addEventListener('click', () => {
