@@ -1,7 +1,8 @@
 // progress_modal.js
 
 export function showProgressModal() {
-    const progressModal = new bootstrap.Modal(document.getElementById('progressModal'));
+    const progressModalElement = document.getElementById('progressModal');
+    const progressModal = new bootstrap.Modal(progressModalElement);
     progressModal.show();
 
     const progressBar = document.getElementById('progressBar');
@@ -16,7 +17,13 @@ export function showProgressModal() {
 
         if (progress >= 100) {
             clearInterval(interval);
-            progressModal.hide();
+
+            // 100%になったらフェードアウト開始
+            progressModalElement.classList.add('fade-out');
+            setTimeout(() => {
+                progressModal.hide(); // フェードアウト後に非表示
+                progressModalElement.classList.remove('fade-out'); // 次回表示のためにクラスを削除
+            }, 500); // 500msのフェードアウト
         }
     }, 20);
 }
