@@ -1,18 +1,17 @@
 import { display_switching } from "./display_switching.js";
 import { sendButtonState } from "./post.js";
-import { startCountdown } from "./timer.js";
-import { stopCountdown } from "./timer.js";
-
+import { startCountdown, stopCountdown } from "./timer.js";
+import { showProgressModal } from "./progress_modal.js";
 
 function setupButton(buttonId) {
     const button = document.getElementById(buttonId);
     let isPressed = false;
-    let stopModal = null;  // モーダルのインスタンスをグローバルに保持
+    let stopModal = null;
 
     // モーダルの初期化
     if (buttonId === 'button1') {
         stopModal = new bootstrap.Modal(document.getElementById('stopModal'));
-        
+
         // OKボタンのクリックイベントを一度だけ設定
         document.getElementById('okButton').addEventListener('click', function() {
             display_switching('button1', false);
@@ -35,26 +34,27 @@ function setupButton(buttonId) {
             isPressed = true;
             button.classList.add('pressed');
             sendButtonState(buttonId, true, false);
-        
-            if (buttonId === 'button1') {  // 停止ボタンの場合
-                stopModal.show();  // 保存したモーダルインスタンスを使用
+
+            if (buttonId === 'button1') {
+                stopModal.show();
             }
 
             if (buttonId === 'button2') {
-                startCountdown(); // 水を出すボタンでカウントダウンを開始
-            }            
-        
+                startCountdown();
+                showProgressModal(); // ここで進捗モーダルを表示
+            }
+
             display_switching(buttonId, true);
         }
     }
 
     function stopSendingState() {
-        if (isPressed && buttonId !== 'button1') {  // 停止ボタン以外の場合
+        if (isPressed && buttonId !== 'button1') {
             isPressed = false;
             button.classList.remove('pressed');
             display_switching(buttonId, false);
 
-            if (buttonId == 'button4') { //水出し終了(button4)で走行開始、カウントダウン終了
+            if (buttonId == 'button4') {
                 stopCountdown();
                 sendButtonState(null, null, true);
             } else {
