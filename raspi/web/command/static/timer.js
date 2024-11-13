@@ -131,18 +131,31 @@ export function stopCountdown() {
     remainingTime = setTime; // 残り時間をリセット
 }
 
-// 「水を出す」ボタンを押し続けている間タイマーをリセット
+// 「水を出す」ボタンの表示を監視してカウントダウンを開始する
 const waterButton = document.getElementById('button2');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            // ボタンが表示されるたびにタイマーを開始
+            startCountdown();
+        }
+    });
+});
+
+// 「水を出す」ボタンの表示を監視
+observer.observe(waterButton);
+
+// 「水を出す」ボタンを押し続けている間、タイマーをリセット
 waterButton.addEventListener('mousedown', () => {
     isButtonHeld = true;
-    startCountdown(); // タイマーをリセットして開始
 
     // ボタンを押し続けている間、タイマーをリセット
     const holdInterval = setInterval(() => {
         if (isButtonHeld) {
-            startCountdown();
+            stopCountdown(); // タイマーを停止してリセット
         } else {
             clearInterval(holdInterval); // ボタンが離されたら停止
+            startCountdown(); // ボタンを離した時にカウントダウン開始
         }
     }, 100); // 100msごとにリセット
 });
