@@ -1,6 +1,6 @@
 let countdownTimer;
 let remainingTime;
-let setTime = 18; // タイマーの設定時間を18秒に変更
+let setTime = 20; // タイマーの設定時間
 let bar; // プログレスバーのインスタンス
 let isButtonHeld = false; // 「水を出す」ボタンが押されているかどうかのフラグ
 
